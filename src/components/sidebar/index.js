@@ -8,14 +8,31 @@ import { MdFavorite } from "react-icons/md";
 import { IoLibrary } from "react-icons/io5";
 import { FaSignOutAlt } from "react-icons/fa";
 import deezer from '../../api/deezer';
+import SongCard from '../songCard/songCard';
 
 
 function Sidebar() {
+
+    const [image, setImage] = useState(
+    "https://images.pexels.com/photos/10676939/pexels-photo-10676939.jpeg"
+  );
+
+  //const [tracks, setTracks]=useState([]);
+
+
+
   useEffect(()=>{
     deezer
       .get("/search?q=eminem")
+
       .then((response)=>{
-        console.log(response);
+        console.log(response.data);
+
+        setImage(response.data.data[0].album.cover_big);
+        
+        //setTracks(response.data.data);
+        console.log(response.data.data.length);
+        
         
       })
       .catch((error)=>{
@@ -26,14 +43,25 @@ function Sidebar() {
   
 
 
+  //console.log(tracks);
+
 
   return (
     <div className='sidebar-container'>
-        <img 
-        src="https://images.pexels.com/photos/10676939/pexels-photo-10676939.jpeg"
-        className="profile-img" 
-        alt="profile"
-         />
+        <img src={image} className="profile-img" alt="profile" />
+{/* 
+        <div className='songContainer'>
+          {tracks.map((track)=>(
+            <SongCard
+             key={track.id}
+             track={track}
+             />
+            // <p key={track.id}>{track.title}</p>
+          ))}
+        </div> */}
+
+
+
 
         <div>
             <SidebarButton title="Feed" to="/feed" icon={<MdSpaceDashboard />}/>
