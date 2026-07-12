@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import "./sidebar.css"
 import SidebarButton from './sidebarButton'
 import { MdSpaceDashboard } from "react-icons/md";
@@ -7,12 +7,30 @@ import { FaPlay } from "react-icons/fa";
 import { MdFavorite } from "react-icons/md";
 import { IoLibrary } from "react-icons/io5";
 import { FaSignOutAlt } from "react-icons/fa";
+import deezer from '../../api/deezer';
 
 
 function Sidebar() {
+  useEffect(()=>{
+    deezer
+      .get("/search?q=eminem")
+      .then((response)=>{
+        console.log(response);
+        
+      })
+      .catch((error)=>{
+        console.log(error);
+        
+      });
+  }, []);
+  
+
+
+
   return (
     <div className='sidebar-container'>
-        <img src="https://images.pexels.com/photos/10676939/pexels-photo-10676939.jpeg" 
+        <img 
+        src="https://images.pexels.com/photos/10676939/pexels-photo-10676939.jpeg"
         className="profile-img" 
         alt="profile"
          />

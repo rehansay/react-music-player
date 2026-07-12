@@ -10,9 +10,15 @@ import Sidebar from '../../components/sidebar';
 
 
 function Home() {
+ 
+
+
+
   return (
     <Router>
         <div className='main-body'>
+
+        
         <Sidebar />
 
         <Routes>
