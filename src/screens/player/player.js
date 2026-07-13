@@ -11,6 +11,9 @@ function Player() {
 
   const [isPlaying , setIsPlaying]=useState(false);
 
+  const [currentTime, setCurrentTime]=useState(0);
+  const[duration, setDuration]=useState(0);
+
   const audioRef=useRef(null);
 
   const handlePlayPause=()=>{
@@ -46,9 +49,36 @@ function Player() {
         {isPlaying?"Pause ⏸️ ": "Play ▶️"}
       </button>
 
+      <p>
+        {Math.floor(currentTime)} / {Math.floor(duration )} sec
+      </p>
+
+      <input
+        type="range"
+        min="0"
+        max={duration}
+        value={currentTime}
+        onChange={(e)=>{
+          const time=Number(e.target.value)
+          audioRef.current.currentTime=time;
+          setCurrentTime(time);
+        }}
+      />
+
       <audio 
         ref={audioRef}
-        src={track.preview}    
+        src={track.preview}
+
+        onTimeUpdate={()=>{
+          setCurrentTime(audioRef.current.currentTime);
+        }}
+        onLoadedMetadata={()=>{
+          setDuration(audioRef.current.duration)
+        }}
+        onEnded={()=>{
+          setIsPlaying(false);
+          setCurrentTime(0);
+        }}
 
       />
     </div>
