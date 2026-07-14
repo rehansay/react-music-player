@@ -27,3 +27,15 @@
     flex-direction: column;
     overflow-y: auto;
 }
+
+.loading{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    height:300px;
+
+    color:white;
+
+    font-size:28px;
+}

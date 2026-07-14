@@ -5,19 +5,50 @@ import "./feed.css"
 function Feed() {
   const [tracks, setTracks]=useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   const [search, setSearch]=useState("")
 
-   useEffect(() => {
-  
-      deezer.get(`/search?q=${search}`)
-      .then((response) => {
-        console.log(response.data);
-        setTracks(response.data.data  || []);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const[debouncedSearch, setDebouncedSearch]=useState("");
+  useEffect(() => {
+  const timer = setTimeout(() => {
+    setDebouncedSearch(search);
+  }, 500);
+
+  return () => clearTimeout(timer);
   }, [search]);
+
+
+
+
+   useEffect(() => {
+
+    if (!debouncedSearch.trim()) {
+    setTracks([]);
+    return;
+    }
+
+    const fetchSongs=async()=>{
+      try{
+
+          setLoading(true);
+
+          const response= await deezer.get(`/search?q=${debouncedSearch}`)
+
+          setTracks(response.data.data  || []);
+
+      }
+      catch(error){
+        console.log(error);
+        
+      }
+      finally{
+        setLoading(false);
+      }
+      
+  
+
+  }, [debouncedSearch]);
 
 return (
 
@@ -34,8 +65,11 @@ return (
 
     </div>
 
-
-
+  {loading ? (
+    <div className="loading">
+      <h2>🎵 Loading songs...</h2>
+    </div>
+  ) : (
     <div className="songContainer">
       {tracks.map((track, index) => (
         <SongCard
@@ -46,8 +80,9 @@ return (
         />
       ))}
     </div>
-
+    )}
   </div>
+
 );
 }
 
