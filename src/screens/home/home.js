@@ -22,8 +22,8 @@ function Home() {
         <Sidebar />
 
         <Routes>
-            <Route path="/" element={<Library/>}/>
-            <Route path="/feed" element={<Feed/>}/>
+            <Route path="/" element={<Feed/>}/>
+            <Route path="/library" element={<Library/>}/>
             <Route path="/player" element={<Player/>}/>
             <Route path="/trending" element={<Trending/>}/>
             <Route path="/favorites" element={<Favorites/>}/>
